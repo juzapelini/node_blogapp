@@ -122,7 +122,7 @@
 
 //Outros
     //const PORT = 8081
-    const PORT = 80
+    const PORT = 21001
     app.listen(PORT, () => {
         console.log("Servidor rodando!")
     })
