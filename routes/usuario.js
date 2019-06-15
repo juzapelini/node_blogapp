@@ -50,6 +50,7 @@ const passport = require("passport")
                         nome:   req.body.nome,
                         email:  req.body.email,
                         senha:  req.body.senha,
+                        //eAdmin: 1
                     }
                     bcrypt.genSalt(10, (erro, salt) => {
                         bcrypt.hash(novoUsuario.senha, salt, (erro, hash) =>{
@@ -87,6 +88,12 @@ const passport = require("passport")
             failureFlash: true
 
         })(req, res, next)
+    })
+
+    router.get("/logout", (req, res) => {
+        req.logOut()
+        req.flash("success_msg", "Logout com sucesso")
+        res.redirect("/")
     })
 
 module.exports = router

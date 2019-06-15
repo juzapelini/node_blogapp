@@ -15,6 +15,7 @@
     const usuarios = require("./routes/usuario")
     const passport = require("passport")
     require("./config/auth")(passport)
+    const db = require("./config/db")
 
 
 //Configurações
@@ -34,6 +35,7 @@
             res.locals.success_msg = req.flash("success_msg")
             res.locals.error_msg = req.flash("error_msg")
             res.locals.error = req.flash("error")
+            res.locals.user = req.user || null
             next()
         })
     //BodyParser
@@ -45,7 +47,9 @@
         app.set('view engine', 'handlebars')
     //Mongoose
         mongoose.Promise = global.Promise;
-        mongoose.connect("mongodb://localhost/blogapp", { useNewUrlParser: true }).then(() => {
+        //mongoose.connect("mongodb://localhost/blogapp", { useNewUrlParser: true }).then(() => {
+        //mongoose.connect("mongodb+srv://zapelini:zap01ok@blogapp-prod-m5sjd.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true }).then(() => {
+        mongoose.connect(db.mongoURI).then(() => {
             console.log("Conectado ao mongo!")
         }).catch((e) => {
             console.log("Erro ao conectar ao mongo: " + e)
@@ -122,7 +126,8 @@
 
 //Outros
     //const PORT = 8081
-    const PORT = 21001
+    //const PORT = 21001
+    const PORT = process.env.PORT || 8089
     app.listen(PORT, () => {
         console.log("Servidor rodando!")
     })
